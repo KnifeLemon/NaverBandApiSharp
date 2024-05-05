@@ -4,6 +4,8 @@ namespace NaverBandApiSharp.Classes.Models
 {
     public class GetStartTokenResultData
     {
+        [JsonProperty("message")]
+        public string? message { get; set; }
 
         [JsonProperty("token")]
         public string token { get; set; }

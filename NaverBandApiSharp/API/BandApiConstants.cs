@@ -4,6 +4,17 @@ namespace NaverBandApiSharp.API
 {
     internal static class BandApiConstants
     {
+
+        #region Default Android Devices Info
+        public const string ANDROID_OS_VERSION = "14.0.0";
+        public const string ANDROID_API_LEVEL = "35";
+
+        public const string ANDROID_BRAND = "samsung";
+        public const string ANDROID_MODEL = "SM-S918N"; // Galaxy S23 Ultra
+
+        public const string ANDROID_CHROME_VERSION = "124.0.6367.113";
+        #endregion
+
         #region Main
         public const string RSA_EXPONENT = "010001";
         public const string RSA_MODULUS = "CDDE7FBC056BE809FA53210B27F48545068A32E6E93F07AB7959842842C49999B025FCD883450831A4E6C7BBB2890CB6C1C573D151074B7D6BEB9DB559171B52D0865D0E16CE30E9ADEA9940564405FD2FB9F409FEAC0D88F7BEB3F98224603D422EA965E532C00BFC0E1B1EC89ECA16A840919EA7A84F2922C6ECCFC5AD09FE077A37E0C495A693ED4869B24DF114890D3990539D88EF845B3CBD9C80E12D0CE752B5DC7F2708F4D13EE4754C9BA961D3E0A99CC83B9ACCB4C852F085E6EB48F9ACF102B6DC40E6C230F6267E6A77BCFDF0D10CC49ACD6970ECEBC83117D496D0E0DDCB87EC0E9F8A5E9D2D8E5C9D7A6B2C0A45523ABF0646670615534DD0F3";
@@ -12,7 +23,7 @@ namespace NaverBandApiSharp.API
         public const string APP_KEY = "ea55718a56a32baa6846234bf3bbf9c0";
         public const string APP_SECRET_KEY = "9c6cbbc25ba16be690840cfd4fbaed66";
 
-        public const string USER_AGENT = "Band/{1}({2};{3})"; // Band/{appVersion}({androidOS};{deviceName})
+        public const string USER_AGENT = "Band/{0}(Android OS {1};{2} {3})"; // Band/{appVersion}(Android OS {osVersion};{deviceBrand} {deviceModel})
         public const string USER_AGENT_DEFAULT = "Band/16.0.3(Android OS 9;samsung SM-G973N)";
 
         public const string COUNTRY = "KR";
@@ -50,7 +61,7 @@ namespace NaverBandApiSharp.API
 
         #region StartUp Endpoints
         public const string STARTUP_GET_START_TOKEN = BAND_API_URL + "/v1/get_start_token";
-        public const string STARTUP_START_BAND = BAND_API_URL + "/v2.0.0/start_band";
+        public const string STARTUP_START_BAND = BAND_AUTH_URL + "/v2.0.0/start_band";
         #endregion
     }
 }

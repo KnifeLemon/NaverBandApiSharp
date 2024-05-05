@@ -4,11 +4,29 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Org.BouncyCastle.Crypto.Macs;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace NaverBandApiSharp.Helper
 {
-    internal class BandCredential
+    internal static class BandCredentialHelper
     {
+        public static string GetHashedMdString(this string data, string key)
+        {
+            var dataBytes = Encoding.UTF8.GetBytes(data);
+            var derivedKey = Convert.FromBase64String(key);
+            var digest = new HMac(new Org.BouncyCastle.Crypto.Digests.Sha256Digest());
+
+            digest.Init(new KeyParameter(derivedKey));
+            digest.BlockUpdate(dataBytes, 0, dataBytes.Length);
+
+            var output = new byte[digest.GetMacSize()];
+            digest.DoFinal(output, 0);
+            digest.Reset();
+
+            return Convert.ToBase64String(output);
+        }
+
         public static string EncryptRSA(string strPublicModulusKey, string strPublicExponentKey, string strTarget)
         {
             string strResult = String.Empty;

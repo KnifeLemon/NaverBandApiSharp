@@ -15,55 +15,46 @@ namespace NaverBandApiSharp.API
      *      네이버 밴드 API
      * </summary>
      */
-    internal class BandApi : IBandApi
+    public class BandApi : IBandApi
     {
-        private BandApiAccountType accountType;
-        private string id;
-        private string password;
-
+        private MobileDevice mobile_device;
+        private BandDevice band_device;
 
         /**
          * <summary>
          *      네이버 밴드 API 생성자
          * </summary>
          */
-        internal BandApi(BandApiAccountType _accountType, string _id, string _password)
+        public BandApi()
         {
-            accountType = _accountType;
-            id = _id;
-            password = _password;
-
-            /**
-             * 네이버 밴드 앱 인증 {
-             */
-
-            Task.Run(async () =>
-            {
-                try
-                {
-                    // 인증 요청
-                    Requester req = new Requester();
-                    var startBand = req.send<GetStartToken>(HttpMethod.Get, BandApiConstants.STARTUP_GET_START_TOKEN);
-
-
-                }
-                catch (RequestFailedException ex)
-                {
-                    // 인증 요청 실패
-                    throw new Exception(ex.Message, ex);
-                }
-                catch (Exception ex)
-                {
-                    // 인증 요청 실패
-                    throw new Exception(ex.Message, ex);
-                }
-            }).Wait();
-
-
-
-            /**
-             * } 네이버 밴드 앱 인증
-             */
         }
+
+        public void setBandDevice(BandDevice _device)
+        {
+            this.band_device = _device;
+        }
+
+        public BandDevice getBandDevice()
+        {
+            return band_device;
+        }
+
+        public void setAndroidDevice(MobileDevice _device)
+        {
+            mobile_device = _device;
+        }
+
+        public MobileDevice getAndroidDevice()
+        {
+            return mobile_device;
+        }
+
+        public bool login(BandApiAccountType accountType, string identifiy, string password)
+        {
+            Login login = new Login(accountType, identifiy, password);
+
+            return true;
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NaverBandApiSharp.Classes.Models;
+using NaverBandApiSharp.Enums;
 
 namespace NaverBandApiSharp.API
 {
@@ -14,6 +15,15 @@ namespace NaverBandApiSharp.API
      */
     public interface IBandApi
     {
+        void setBandDevice(BandDevice _device);
+        BandDevice getBandDevice();
+
+        void setAndroidDevice(MobileDevice _device);
+        MobileDevice getAndroidDevice();
+
+
+        bool login(BandApiAccountType accountType, string identifiy, string password);
+
         //GetStartToken BandGetStartToken { get; }
     }
 }

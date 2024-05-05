@@ -11,9 +11,11 @@ namespace NaverBandApiSharp.Helper
     internal class Requester
     {
         private CookieContainer cookieContainer = new CookieContainer();
+        private BandDevice device;
 
-        internal Requester()
+        internal Requester(BandDevice bandDevice)
         {
+            device = bandDevice;
         }
 
         private HttpRequestMessage GetDefaultRequest(HttpMethod method, string url)
@@ -25,7 +27,7 @@ namespace NaverBandApiSharp.Helper
             request.Headers.Add(BandApiConstants.HEADER_AKEY, BandApiConstants.APP_KEY);
             request.Headers.Add(BandApiConstants.HEADER_DEVICE_TIME_ZONE_MS_OFFSET, BandApiConstants.TIMEZONE_OFFSET.ToString());
             request.Headers.Add(BandApiConstants.HEADER_LANGUAGE, BandApiConstants.LANGUAGE);
-            request.Headers.Add(BandApiConstants.HEADER_USER_AGENT, BandApiConstants.USER_AGENT_DEFAULT);
+            request.Headers.TryAddWithoutValidation(BandApiConstants.HEADER_USER_AGENT, (device.band_user_agent != null ? device.band_user_agent : BandApiConstants.USER_AGENT_DEFAULT));
             request.Headers.Add(BandApiConstants.HEADER_VERSION, BandApiConstants.VERSION);
             request.Headers.Add(BandApiConstants.HEADER_ACCEPT_ENCODING, BandApiConstants.ACCEPT_ENCODING);
             return request;
@@ -69,6 +71,8 @@ namespace NaverBandApiSharp.Helper
                 HttpClient client = new HttpClient(clientHandler);
                 var response = await client.SendAsync(request);
                 var json = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine(json);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
