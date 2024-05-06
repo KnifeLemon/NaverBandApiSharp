@@ -123,10 +123,12 @@ namespace NaverBandApiSharp.API
             {
                 string accountTypeString = accountType.GetStringValue();
 
+                string verifyURL = "";
                 Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
 
                 if (accountType == BandSignUpAccountType.EMAIL)
                 {
+                    verifyURL = BandApiConstants.SIGNUP_VERIFY_EMAIL;
                     keyValuePairs = new Dictionary<string, string>()
                     {
                         { "verification_code_id", verificationId.ToString() },
@@ -136,6 +138,7 @@ namespace NaverBandApiSharp.API
                 }
                 else if (accountType == BandSignUpAccountType.PHONE)
                 {
+                    verifyURL = BandApiConstants.SIGNUP_VERIFY_CODE;
                     keyValuePairs = new Dictionary<string, string>()
                     {
                         { "type", accountTypeString },
@@ -144,7 +147,7 @@ namespace NaverBandApiSharp.API
                     };
                 }
 
-                var resVerifyCode = await req.send<VerifyCodeResult>(HttpMethod.Post, BandApiConstants.SIGNUP_VERIFY_CODE, keyValuePairs);
+                var resVerifyCode = await req.send<VerifyCodeResult>(HttpMethod.Post, verifyURL, keyValuePairs);
                 // {"result_code":1,"result_data":{"verification_token":"aNm4M6p4CJBuqIT0l+HTlBI4jlRcA+BTufFh1SmXheI=","owner":{"name_hint":"홍길*"},"expires_in":3599}}
                 verificationToken = resVerifyCode.verification_token;
                 return true;
