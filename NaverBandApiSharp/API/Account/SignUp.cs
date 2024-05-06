@@ -95,7 +95,7 @@ namespace NaverBandApiSharp.API
                 }
                 else if (accountType == BandSignUpAccountType.PHONE)
                 {
-                    await req.send<MessageCommonResult>(HttpMethod.Get, BandApiConstants.SIGNUP_SEND_AUTH_SMS, new Dictionary<string, string>()
+                    await req.send<MessageCommonResult>(HttpMethod.Post, BandApiConstants.SIGNUP_SEND_AUTH_SMS, new Dictionary<string, string>()
                     {
                         { "phone_number", identify }
                     });
@@ -144,7 +144,7 @@ namespace NaverBandApiSharp.API
                     };
                 }
 
-                var resVerifyCode = await req.send<VerifyCodeResult>(HttpMethod.Get, BandApiConstants.SIGNUP_VERIFY_CODE, keyValuePairs);
+                var resVerifyCode = await req.send<VerifyCodeResult>(HttpMethod.Post, BandApiConstants.SIGNUP_VERIFY_CODE, keyValuePairs);
                 // {"result_code":1,"result_data":{"verification_token":"aNm4M6p4CJBuqIT0l+HTlBI4jlRcA+BTufFh1SmXheI=","owner":{"name_hint":"홍길*"},"expires_in":3599}}
                 verificationToken = resVerifyCode.verification_token;
                 return true;
@@ -176,13 +176,17 @@ namespace NaverBandApiSharp.API
             payload["client"]["os_name"] = device.os_name;
             payload["client"]["language"] = BandApiConstants.LANGUAGE.Substring(0, 2).ToLower();
 
-            payload["events"][0]["event_time"] = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds.ToString();
+            payload["events"][0]["event_time"] = ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds).ToString();
             payload["events"][0]["extra"]["method"] = accountTypeString.Split('_')[0];
             payload["events"][0]["extra"]["user_verify_id"] = device.ad_id;
 
+            //long ts = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            //string signup_payload = "{\"client\": {\"country\":\"" + BandApiConstants.COUNTRY+ "\",\"client_context\":{\"adid\":\"" + device.ad_id + "\"},\"product\":\"bandapp\",\"os_ver\":\"" + device.os_version + "\",\"device_id\":\"" + device.device_id + "\",\"device_model\":\"" + device.device + "\",\"service_id\":\"band\",\"app_ver\":\"" + BandApiConstants.APP_VERSION + "\",\"user_key\":\"__UNKNOWN__\",\"os_name\":\"" + device.os_name + "\",\"language\":\"" + BandApiConstants.LANGUAGE.Substring(0, 2).ToLower() + "\"}, \"events\": [{\"scene_id\":\"app_signup_background\",\"action_id\":\"occur\",\"classifier\":\"server_signup_complete\",\"event_time\":" + ts.ToString() + ",\"extra\":{\"method\":\"" + accountTypeString.Split('_')[0] + "\",\"user_verify_id\":\"" + device.ad_id + "\"}}]}";
+
+
             var resSignUp = await req.send<SignUpResult>(HttpMethod.Post, BandApiConstants.SIGNUP, new Dictionary<string, string>()
             {
-                { "type", accountTypeString },
+                { "account_type", accountTypeString },
                 { "service_notification", (serviceNotification ? "true" : "false") },
                 { "password", password },
                 { "sim_operator", PLMN.GetRandomPLMN() },
@@ -190,6 +194,7 @@ namespace NaverBandApiSharp.API
                 { "device_id", device.device_id },
                 { "device_model", device.device },
                 { "ba_signup_payload", JsonConvert.SerializeObject(payload) },
+                //{ "ba_signup_payload", signup_payload },
                 { "name", name },
                 { "language", BandApiConstants.LANGUAGE },
                 { "time_zone_id", BandApiConstants.TIMEZONE },

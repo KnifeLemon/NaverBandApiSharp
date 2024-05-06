@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
-using System.Net.Mail;
-using System.Text.Json.Nodes;
+using System.Text;
 using NaverBandApiSharp.API;
 using NaverBandApiSharp.Classes.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace NaverBandApiSharp.Helper
 {
@@ -56,14 +53,24 @@ namespace NaverBandApiSharp.Helper
         private HttpRequestMessage GetDefaultRequest(HttpMethod method, string url, Dictionary<string, string> data)
         {
             var request = GetDefaultRequest(method, url);
-            foreach (var item in data.ToDictionary(entry => entry.Key, entry => entry.Value))
-            {
-                if (string.IsNullOrEmpty(item.Value))
-                {
-                    data.Remove(item.Key);
-                }
-            }
-            request.Content = new FormUrlEncodedContent(data);
+            //foreach (var item in data.ToDictionary(entry => entry.Key, entry => entry.Value))
+            //{
+            //    if (string.IsNullOrEmpty(item.Value))
+            //    {
+            //        data.Remove(item.Key);
+            //    }
+            //}
+            //request.Content = new FormUrlEncodedContent(data);
+
+            // 데이터에서 빈 값이나 null인 항목 제거
+            var filteredData = data
+                .Where(item => !string.IsNullOrEmpty(item.Value))
+                .ToDictionary(item => item.Key, item => item.Value);
+
+            var body = string.Join(@"&", filteredData.Select(pair => $"{pair.Key}={Uri.EscapeDataString(pair.Value)}"));
+            var content = new StringContent(body, Encoding.UTF8, @"application/x-www-form-urlencoded");
+            request.Content = content;
+
             return request;
         }
 

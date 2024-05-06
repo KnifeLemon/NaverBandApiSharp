@@ -19,6 +19,17 @@ namespace NaverBandApiSharp.API
 {
     internal sealed class Credential : BandApi
     {
+        BandDevice bandDevice;
+
+        public Credential()
+        {
+            MobileDevice device = this.getAndroidDevice();
+            if (device == null)
+                device = new MobileDevice();
+
+            bandDevice = BandDeviceHelper.MakeAndroidDevice(device);
+        }
+
         /**
          * <summary>
          *      앱 시작 인증부
@@ -28,14 +39,6 @@ namespace NaverBandApiSharp.API
         {
             try
             {
-                MobileDevice device = this.getAndroidDevice();
-                if (device == null)
-                {
-                    device = new MobileDevice();
-                }
-
-                BandDevice bandDevice = BandDeviceHelper.MakeAndroidDevice(device);
-
                 Requester req = new Requester(bandDevice);
 
                 string privateKey = "";

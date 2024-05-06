@@ -85,7 +85,7 @@ namespace NaverBandApiSharp.API
         public const string SIGNUP_SEND_AUTH_SMS = BAND_API_URL + "/v2.0.0/send_auth_sms?ts=";
         public const string SIGNUP_VERIFY_CODE = BAND_API_URL + "/v2.0.0/verify_code?ts=";
 
-        public const string SIGNUP = BAND_API_URL + "/v2.0.0/sign_up?ts=";
+        public const string SIGNUP = BAND_API_URL + "/v2.3.0/sign_up?ts=";
         #endregion
 
         #region Profile Endpoints
