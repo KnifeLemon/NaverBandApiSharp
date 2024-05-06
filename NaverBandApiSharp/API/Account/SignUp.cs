@@ -114,7 +114,6 @@ namespace NaverBandApiSharp.API
         /**
          * <summary>
          *      [Step3] 발송된 인증번호를 검증 요청합니다.
-         *      성공시 verification_token가 반환되고, 실패시 String.Empty가 반환됩니다.
          * </summary>
          */
         public async Task<bool> VerifyCode(string code)
