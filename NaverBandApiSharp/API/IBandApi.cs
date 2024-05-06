@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NaverBandApiSharp.Classes.Models;
+﻿using NaverBandApiSharp.Classes.Models;
 using NaverBandApiSharp.Enums;
 
 namespace NaverBandApiSharp.API
@@ -22,7 +17,17 @@ namespace NaverBandApiSharp.API
         MobileDevice getAndroidDevice();
 
 
-        bool login(BandApiAccountType accountType, string identifiy, string password);
+        bool SignIn(BandAccountType accountType, string identifiy, string password);
+
+
+
+        Task<bool> SignUpStart(BandSignUpAccountType accountType, string identifiy, string password);
+
+        Task<bool> SignUpSendCode();
+
+        Task<bool> SignUpVerifyCode(string code);
+
+        Task<bool> SignUpEnd(string name, DateTime birthdate, bool birthDateSolar = false, bool serviceNotification = false);
 
         //GetStartToken BandGetStartToken { get; }
     }

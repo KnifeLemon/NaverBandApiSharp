@@ -36,6 +36,7 @@ namespace NaverBandApiSharp.API
 
         public const string ACCEPT_ENCODING = "gzip, deflate, br";
 
+        public const string HEADER_Authorization = "Authorization";
         public const string HEADER_DEVICE_TIME_ZONE_ID = "Device-Time-Zone-Id";
         public const string HEADER_DEVICE_TIME_ZONE_MS_OFFSET = "Device-Time-Zone-Ms-Offset";
         public const string HEADER_AKEY = "Akey";
@@ -45,6 +46,7 @@ namespace NaverBandApiSharp.API
         public const string HEADER_USER_AGENT = "User-Agent";
         public const string HEADER_ACCEPT_ENCODING = "Accept-Encoding";
         public const string HEADER_HOST = "Host";
+        public const string HEADER_MD = "Md";
 
         public const string API_URI = "api.band.us";
         public const string AUTH_URI = "auth.band.us";
@@ -62,6 +64,40 @@ namespace NaverBandApiSharp.API
         #region StartUp Endpoints
         public const string STARTUP_GET_START_TOKEN = BAND_API_URL + "/v1/get_start_token";
         public const string STARTUP_START_BAND = BAND_AUTH_URL + "/v2.0.0/start_band";
+
+        // Login StartUp
+        public const string STARTUP_SET_DEVICE_LANGUAGE = BAND_API_URL + "/v1/set_device_language?device_id={0}&language={1}&ts=";
+        public const string STARTUP_RENEW_ONLINE_STATUS = BAND_API_URL + "/v2.0.0/renew_online_status?ts={ts}";
+        #endregion
+
+        #region Sign-In Endpoints
+        public const string SIGNIN_VERIFY_USER_BY_PHONE = BAND_API_URL + "/v2.0.0/verify_user_by_phone?ts=";
+        #endregion
+
+        #region Sign-Up Endpoints
+        public const string SIGNUP_CHECK_ACCOUNT = BAND_API_URL + "/v2.0.0/check_account?account_type={0}&account_id={1}&ts=";
+        public const string SIGNUP_CHECK_PASSWORD = BAND_API_URL + "/v2.0.0/check_password?ts=";
+
+        public const string SIGNUP_GET_EMAIL_STATUS = BAND_API_URL + "/v2.0.0/get_email_status?resend_email_verification={0}&email={1}&ts=";
+        public const string SIGNUP_SEND_AUTH_EMAIL = BAND_API_URL + "/v2.0.0/send_auth_email?ts=";
+        public const string SIGNUP_VERIFY_EMAIL = BAND_API_URL + "/v2.0.0/verify_email?ts=";
+
+        public const string SIGNUP_SEND_AUTH_SMS = BAND_API_URL + "/v2.0.0/send_auth_sms?ts=";
+        public const string SIGNUP_VERIFY_CODE = BAND_API_URL + "/v2.0.0/verify_code?ts=";
+
+        public const string SIGNUP = BAND_API_URL + "/v2.0.0/sign_up?ts=";
+        #endregion
+
+        #region Profile Endpoints
+        public const string PROFILE_GET = BAND_API_URL + "/v2.0.0/get_profile?ts={ts}";
+        public const string PROFILE_CHECK_PHONE_REGISTRATION_REQUIRED = BAND_API_URL + "/v2.0.0/check_phone_registration_required?ts=";
+
+        #endregion
+
+        #region User Endpoints
+        public const string USER_GET_NOTICE_INFO = BAND_API_URL + "/v2.0.0/get_notice_info?without_post_news={0}&without_album_news={1}&feed_version={2}&ts=";
+
+        public const string USER_DELETE = BAND_API_URL + "/v2.1.0/delete_user?ts="; // POST | force=false | {"result_code":1,"result_data":{"message":"처리되었습니다."}}
         #endregion
     }
 }

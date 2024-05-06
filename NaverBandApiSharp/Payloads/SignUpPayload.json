@@ -1,0 +1,29 @@
+{
+  "client": {
+    "country": "KR",
+    "client_context": {
+      "adid": "93ba8d34-bebc-42a5-82b8-196502c34a2c"
+    },
+    "product": "bandapp",
+    "os_ver": "9",
+    "device_id": "M_b10ba2b83dcb75dee3cb9774bd2da1a59efc6a75bcddad5b35db8ff5886b8ba1",
+    "device_model": "samsung+SM-G973N",
+    "service_id": "band",
+    "app_ver": "16.0.3",
+    "user_key": "__UNKNOWN__",
+    "os_name": "android",
+    "language": "ko"
+  },
+  "events": [
+    {
+      "scene_id": "app_signup_background",
+      "action_id": "occur",
+      "classifier": "server_signup_complete",
+      "event_time": 1714979821112,
+      "extra": {
+        "method": "phone",
+        "user_verify_id": "93ba8d34-bebc-42a5-82b8-196502c34a2c"
+      }
+    }
+  ]
+}

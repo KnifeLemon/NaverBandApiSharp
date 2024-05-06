@@ -49,12 +49,46 @@ namespace NaverBandApiSharp.API
             return mobile_device;
         }
 
-        public bool login(BandApiAccountType accountType, string identifiy, string password)
+        #region SignIn
+        private SignIn signIn;
+        public bool SignIn(BandAccountType accountType, string identifiy, string password)
         {
-            Login login = new Login(accountType, identifiy, password);
+            signIn = new SignIn(accountType, identifiy, password);
 
             return true;
         }
+
+        #endregion
+
+        #region Sign-Up
+        private SignUp signUp;
+        public async Task<bool> SignUpStart(BandSignUpAccountType signUpAccountType, string identifiy, string password)
+        {
+            signUp = new SignUp();
+
+            return await signUp.Ready(signUpAccountType, identifiy, password);
+        }
+
+        public async Task<bool> SignUpSendCode()
+        {
+            return await signUp.SendAuth();
+        }
+
+        public async Task<bool> SignUpVerifyCode(string code)
+        {
+            return await signUp.VerifyCode(code);
+        }
+
+        public async Task<bool> SignUpEnd(string name, DateTime birthdate, bool birthDateSolar = false, bool serviceNotification = false)
+        {
+            return await signUp.Finish(name, birthdate, birthDateSolar, serviceNotification);
+        }
+
+        #endregion
+
+
+
+        //public bool SignUp(BandSignUpAccountType signUpAccountType, )
 
     }
 }

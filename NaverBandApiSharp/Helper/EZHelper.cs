@@ -48,5 +48,19 @@ namespace NaverBandApiSharp.Helper
 
             return Convert.FromBase64String(incoming);
         }
+
+        public static string GetUrlPathAndQuery(this string str)
+        {
+            try
+            {
+                Uri url = new Uri(str);
+            Console.WriteLine("GetUrlPathAndQuery : " + url.AbsolutePath + url.Query);
+                return url.AbsolutePath + url.Query;
+            }
+            catch
+            {
+                return "";
+            }
+        }
     }
 }

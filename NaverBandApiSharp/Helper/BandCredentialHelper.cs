@@ -13,6 +13,10 @@ namespace NaverBandApiSharp.Helper
     {
         public static string GetHashedMdString(this string data, string key)
         {
+            Console.WriteLine("");
+            Console.WriteLine("data : " + data);
+            Console.WriteLine("enc_hmac_key : " + key);
+
             var dataBytes = Encoding.UTF8.GetBytes(data);
             var derivedKey = Convert.FromBase64String(key);
             var digest = new HMac(new Org.BouncyCastle.Crypto.Digests.Sha256Digest());

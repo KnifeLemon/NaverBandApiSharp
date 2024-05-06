@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Payloads\SignUpPayload.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Payloads\SignUpPayload.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>

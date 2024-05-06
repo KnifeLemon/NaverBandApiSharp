@@ -2,7 +2,7 @@
 
 namespace NaverBandApiSharp.Classes.Models
 {
-    public class StartBandResultData
+    public class StartBandResult
     {
         [JsonProperty("message")]
         public string? message { get; set; }
@@ -24,15 +24,5 @@ namespace NaverBandApiSharp.Classes.Models
 
         [JsonProperty("device_no")]
         public int device_no { get; set; }
-    }
-
-    public class StartBand
-    {
-
-        [JsonProperty("result_data")]
-        public StartBandResultData result_data { get; set; }
-
-        [JsonProperty("result_code")]
-        public int result_code { get; set; }
     }
 }

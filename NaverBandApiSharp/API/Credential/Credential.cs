@@ -24,7 +24,7 @@ namespace NaverBandApiSharp.API
          *      앱 시작 인증부
          * </summary>
          */
-        public async void StartBand()
+        public async Task<BandDevice> StartBand()
         {
             try
             {
@@ -43,11 +43,8 @@ namespace NaverBandApiSharp.API
                 string credential = "";
 
                 // 시작 토큰 요청
-                var resStartToken = await req.send<GetStartToken>(HttpMethod.Get, BandApiConstants.STARTUP_GET_START_TOKEN);
-                if (resStartToken.result_code != 1)
-                    throw new Exception("밴드 시작 토큰 발급 실패 [" + resStartToken.result_data.message + "]");
-
-                string startToken = resStartToken.result_data.token;
+                var resStartToken = await req.send<GetStartTokenResult>(HttpMethod.Get, BandApiConstants.STARTUP_GET_START_TOKEN);
+                string startToken = resStartToken.token;
 
                 //token key RSA암호화
                 string RSACredential = BandCredentialHelper.EncryptRSA(BandApiConstants.RSA_MODULUS, BandApiConstants.RSA_EXPONENT, startToken);
@@ -73,7 +70,7 @@ namespace NaverBandApiSharp.API
                 credential = RSACredential;
 
                 // 인증 요청
-                var resStartBand = await req.send<StartBand>(HttpMethod.Post, BandApiConstants.STARTUP_START_BAND, new Dictionary<string, string>
+                var resStartBand = await req.send<StartBandResult>(HttpMethod.Post, BandApiConstants.STARTUP_START_BAND, new Dictionary<string, string>
                 {
                     { "public_key", publicKey },
                     { "language", BandApiConstants.LANGUAGE.Substring(0, 2).ToLower() },
@@ -81,10 +78,7 @@ namespace NaverBandApiSharp.API
                     { "device_model", bandDevice.model },
                     { "credential", credential }
                 });
-                if (resStartBand.result_code != 1)
-                    throw new Exception("밴드 시작 인증 실패 [" + resStartBand.result_data.message + "]");
-
-                string tempEncHmacKey = resStartBand.result_data.enc_hmac_key;
+                string tempEncHmacKey = resStartBand.enc_hmac_key;
 
                 //enc_hmac_key 를 변환하는 작업
                 byte[] dec_hmac_key = EZHelper.URLBase64Decode(tempEncHmacKey);
@@ -95,13 +89,13 @@ namespace NaverBandApiSharp.API
                 string encHmacKey = Convert.ToBase64String(decryptedAesKey);
 
                 //unique_device_id
-                bandDevice.di = resStartBand.result_data.di;
+                bandDevice.di = resStartBand.di;
                 //게스트 엑세스 토큰
-                bandDevice.guest_access_token = resStartBand.result_data.access_token;
+                bandDevice.guest_access_token = resStartBand.access_token;
                 //md값을 만들때 쓰이는 HMAC 키
                 bandDevice.enc_hmac_key = encHmacKey;
 
-                setBandDevice(bandDevice);
+                return bandDevice;
             }
             catch (RequestFailedException ex)
             {

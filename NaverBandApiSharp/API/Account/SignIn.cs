@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -21,19 +22,24 @@ using Org.BouncyCastle.X509;
 
 namespace NaverBandApiSharp.API
 {
-    internal sealed class Login : BandApi
+    internal sealed class SignIn : BandApi
     {
-        private BandApiAccountType accountType;
+        private BandAccountType accountType;
         private string id;
         private string password;
 
-        public Login(BandApiAccountType _accountType, string _id, string _password)
+        private BandDevice device;
+
+        public SignIn(BandAccountType _accountType, string _id, string _password)
         {
             id = _id;
             password = _password;
+        }
 
+        public async void Initialize()
+        {
             Credential credential = new Credential();
-            credential.StartBand();
+            device = await credential.StartBand();
         }
 
         

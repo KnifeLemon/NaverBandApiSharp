@@ -1,6 +1,6 @@
 ﻿namespace NaverBandApiSharp.Enums
 {
-    public enum BandApiAccountType
+    public enum BandAccountType
     {
         PHONE,
         EMAIL,
